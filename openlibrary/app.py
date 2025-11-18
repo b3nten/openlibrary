@@ -6,6 +6,10 @@ from infogami.utils import app as _app
 from infogami.utils.macro import macro
 from infogami.utils.view import public, render
 
+import requests
+import re
+import time
+import os
 
 class view(_app.page):
     """A view is a class that defines how a page or a set of pages
@@ -61,10 +65,40 @@ class subview(_app.view):
     suffix = None
     types = None
 
+doctype_regex = re.compile(r'^\\s*<!DOCTYPE html>\\s*', re.IGNORECASE)
 
 @macro
 @public
-def render_template(name: str, *a, **kw) -> TemplateResult:
+def render_template(name: str, *a, **kw) -> str:
     if "." in name:
         name = name.rsplit(".", 1)[0]
-    return render[name](*a, **kw)
+
+    html = str(render[name](*a, **kw))
+
+    ssr_url = os.environ.get('SSR_URL')
+    if not ssr_url:
+      return html
+
+    start_time = time.time()
+
+    try:
+      html_to_process = html
+
+      match = doctype_regex.search(html)
+      if match:
+        html_to_process = doctype_regex.sub('', html, count=1)
+
+      response = requests.post(ssr_url, data=html_to_process)
+      response.raise_for_status()
+
+      duration_ms = (time.time() - start_time) * 1000
+      processed_html = response.text + f'<!-- SSR processed in {duration_ms}ms -->'
+
+      if match:
+        processed_html = '<!DOCTYPE html>\\n' + processed_html
+
+      return processed_html
+
+    except requests.exceptions.RequestException as e:
+      print(f"Error making POST request: {e}")
+      return html

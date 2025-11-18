@@ -227,6 +227,16 @@ def render_component(
     html += f'<ol-{kebab_case(name)} {attrs_str}></ol-{kebab_case(name)}>'
     return html
 
+@public
+def render_lit_element(html: str) -> str:
+  try:
+    response = requests.post("http://ssr:8010", data=html)
+    response.raise_for_status()
+    return response.text
+  except requests.exceptions.RequestException as e:
+    print(f"Error making POST request: {e}")
+    return html
+
 
 def render_macro(name, args, **kwargs):
     return dict(web.template.Template.globals['macros'][name](*args, **kwargs))

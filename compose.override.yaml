@@ -22,9 +22,22 @@ services:
       - .:/openlibrary
     environment:
       - LOCAL_DEV=true
+      - SSR_URL=http://ssr:8010
     depends_on:
       - db
       - infobase
+
+  ssr:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.oldev
+    command: node openlibrary/components/ssr/main.mjs
+    ports:
+      - "8010:8010"
+    volumes:
+      - .:/openlibrary
+    networks:
+      - webnet
 
   fast_web:
     build:
