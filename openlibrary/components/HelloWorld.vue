@@ -20,7 +20,7 @@
 
     <hr>
 
-    <p>Here's some logic:</p>
+    <p>Here's some logic</p>
     <!-- v-model is used to bind inputs to data fields. See https://vuejs.org/v2/guide/forms.html -->
     <input
       v-model.number="num1"

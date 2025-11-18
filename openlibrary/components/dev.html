@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Component Playground</title>
+    <script type="module">
+      customElements.define("component-repl", class extends HTMLElement {
+        connectedCallback() {
+        	const root = document.createElement('div');
+        	const select = document.createElement('select');
+         	select.style.marginBottom = "2rem"
+        	this.components.forEach(component => {
+        		select.innerHTML += `<option value="${component}">${component}</option>`;
+        	});
+         	select.value = "hello-world"
+          root.innerHTML = `<ol-hello-world></ol-hello-world>`;
+         	select.addEventListener('change', () => {
+          	// if the component already has an ol prefix, remove it
+          	const component = select.value.replace("ol-", "")
+          	root.innerHTML = `<ol-${component}></ol-${component}>`;
+        	});
+        	[select, root].forEach(it => this.appendChild(it));
+        }
+       	get components() {
+        	return JSON.parse(this.getAttribute('components'));
+        }
+      });
+    </script>
+    <!-- head -->
+  </head>
+  <body>
+    <!-- body -->
+  </body>
+</html>

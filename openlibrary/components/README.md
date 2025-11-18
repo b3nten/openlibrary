@@ -44,7 +44,6 @@ from by setting url parameters on the running app, eg `?ol_base=http://localhost
 
 ## Caveats
 
-- Vue is currently included with each component, so rendering multiple components per page results in very large load sizes
 - JSON attributes currently don't work
 - If Vue is embedded within a `<form>` input elements created by vue won't be picked up on form submission.
 This seems to be related to Vue's use of shadow dom. For a workaround, see the code in [#5093](https://github.com/internetarchive/openlibrary/pull/5093).

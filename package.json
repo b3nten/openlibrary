@@ -20,6 +20,7 @@
     "lint-fix:js": "eslint --fix --ext js,vue .",
     "lint-fix:css": "stylelint --fix ./**/*.less",
     "serve": "node openlibrary/components/dev/serve-component.js && cd openlibrary/components/dev && vite",
+    "dev:js": "cd openlibrary/components && vite --mode development",
     "test": "npm run test:js && bundlesize",
     "test:js": "jest",
     "storybook": "cd stories && npm install --no-audit && npx storybook dev -p 6006",
@@ -106,6 +107,7 @@
     "collectCoverage": false
   },
   "dependencies": {
+    "lit": "^3.3.1",
     "postcss-less": "^6.0.0"
   },
   "overrides": {
