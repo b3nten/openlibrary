@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import { errorDisplay, validateIdentifiers } from './IdentifiersInput/utils/utils.js';
+import { errorDisplay, validateIdentifiers } from './utils/utils.js';
 const identifierPatterns  = {
     wikidata: /^Q[1-9]\d*$/i,
     isni: /^[0]{4} ?[0-9]{4} ?[0-9]{4} ?[0-9]{3}[0-9X]$/i,

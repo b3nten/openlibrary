@@ -19,12 +19,12 @@
 </template>
 
 <script>
-import BookRoom from './LibraryExplorer/components/BookRoom.vue';
-import LibraryToolbar from './LibraryExplorer/components/LibraryToolbar.vue';
-import DDC from './LibraryExplorer/ddc.json';
-import LCC from './LibraryExplorer/lcc.json';
-import { recurForEach } from './LibraryExplorer/utils.js';
-import { sortable_lcc_to_short_lcc, short_lcc_to_sortable_lcc } from './LibraryExplorer/utils/lcc.js';
+import BookRoom from './components/BookRoom.vue';
+import LibraryToolbar from './components/LibraryToolbar.vue';
+import DDC from './ddc.json';
+import LCC from './lcc.json';
+import { recurForEach } from './utils.js';
+import { sortable_lcc_to_short_lcc, short_lcc_to_sortable_lcc } from './utils/lcc.js';
 import maxBy from 'lodash/maxBy';
 
 class FilterState {

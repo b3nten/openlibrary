@@ -3,33 +3,101 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="importmap">
+    {
+    	"imports": {
+     		"codemirror": "https://esm.sh/codemirror",
+        "@codemirror/view": "https://esm.sh/@codemirror/view",
+        "@codemirror/lang-html": "https://esm.sh/@codemirror/lang-html",
+        "@fsegurai/codemirror-theme-vscode-dark": "https://esm.sh/@fsegurai/codemirror-theme-vscode-dark"
+     	}
+    }
+    </script>
     <title>Component Playground</title>
-    <script type="module">
+    <script type="module" vite-ignore>
+    	import {basicSetup} from "codemirror"
+     	import {EditorView} from "@codemirror/view"
+      import {html} from "@codemirror/lang-html"
+      import { vsCodeDark } from '@fsegurai/codemirror-theme-vscode-dark'
+
       customElements.define("component-repl", class extends HTMLElement {
         connectedCallback() {
         	const root = document.createElement('div');
-        	const select = document.createElement('select');
-         	select.style.marginBottom = "2rem"
-        	this.components.forEach(component => {
-        		select.innerHTML += `<option value="${component}">${component}</option>`;
-        	});
-         	select.value = "hello-world"
-          root.innerHTML = `<ol-hello-world></ol-hello-world>`;
-         	select.addEventListener('change', () => {
-          	// if the component already has an ol prefix, remove it
-          	const component = select.value.replace("ol-", "")
-          	root.innerHTML = `<ol-${component}></ol-${component}>`;
-        	});
-        	[select, root].forEach(it => this.appendChild(it));
-        }
-       	get components() {
-        	return JSON.parse(this.getAttribute('components'));
+         	root.id = "output";
+
+        	const codeblock = document.createElement('div');
+        	codeblock.id = "codeblock";
+
+         	const btn = document.createElement('button');
+				 	btn.textContent = "Update";
+					btn.id = "update-btn";
+
+					const codeAndButtonWrapper = document.createElement('div');
+					codeAndButtonWrapper.id = "code-and-button-wrapper";
+
+					[codeblock, btn].forEach(it => codeAndButtonWrapper.appendChild(it));
+
+          [codeAndButtonWrapper, root].forEach(it => this.appendChild(it));
+          console.log(basicSetup)
+         	const view = new EditorView({
+           	doc: "\n<ol-hello-world></ol-hello-world> <!-- Edit this code and click Update to see the result here. -->\n",
+            parent: codeblock,
+            extensions: [basicSetup, html(), vsCodeDark]
+          })
+          btn.addEventListener('click', () => {
+						root.innerHTML = view.state.doc.toString();
+					});
+          root.innerHTML = view.state.doc.toString();
         }
       });
     </script>
+    <style>
+    	* {
+      	box-sizing: border-box;
+     }
+    	body {
+      	margin: 0;
+			 	padding: 0;
+			 	height: 100svh;
+			 	display: flex;
+			 	flex-direction: column;
+				background-color: #1e1e1e;
+				color: #eee;
+     }
+
+    	component-repl {
+     		display: flex;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1.5rem;
+				height: 100svh;
+
+				#codeblock {
+					width: 100%;
+					border: 1px solid #333;
+				}
+
+				#output {
+					min-height: 50px;
+					height: 100%;
+					overflow: scroll;
+					background-color: white;
+					color: #000;
+				}
+
+				#code-and-button-wrapper {
+					display: flex;
+					flex-direction: row;
+					gap: 0.5em;
+					justify-content: center;
+					align-items: center;
+				}
+
+     	}
+    </style>
     <!-- head -->
   </head>
   <body>
-    <!-- body -->
+  	<component-repl></component-repl>
   </body>
 </html>

@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import CategorySelector from './ObservationForm/components/CategorySelector.vue'
-import SavedTags from './ObservationForm/components/SavedTags.vue'
-import ValueCard from './ObservationForm/components/ValueCard.vue'
+import CategorySelector from './components/CategorySelector.vue'
+import SavedTags from './components/SavedTags.vue'
+import ValueCard from './components/ValueCard.vue'
 
-import { decodeAndParseJSON, resizeColorbox } from './ObservationForm/Utils'
+import { decodeAndParseJSON, resizeColorbox } from './Utils'
 
 export default {
     name: 'ObservationForm',

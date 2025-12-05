@@ -52,8 +52,8 @@
 </template>
 
 <script>
-import MergeTable from './MergeUI/MergeTable.vue'
-import { do_merge, update_merge_request, createMergeRequest, DEFAULT_EDITION_LIMIT } from './MergeUI/utils.js';
+import MergeTable from './MergeTable.vue'
+import { do_merge, update_merge_request, createMergeRequest, DEFAULT_EDITION_LIMIT } from './utils.js';
 
 const DO_MERGE = 'Do Merge'
 const REQUEST_MERGE = 'Request Merge'

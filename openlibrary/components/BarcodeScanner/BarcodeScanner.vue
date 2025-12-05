@@ -39,12 +39,12 @@
 </template>
 
 <script>
-import LazyBookCard from './BarcodeScanner/components/LazyBookCard.vue';
-import SettingsIcon from './LibraryExplorer/components/icons/SettingsIcon.vue';
+import LazyBookCard from './components/LazyBookCard.vue';
+import SettingsIcon from '../LibraryExplorer/components/icons/SettingsIcon.vue';
 import Quagga from '@ericblade/quagga2';
 import maxBy from 'lodash/maxBy';
 import countBy from 'lodash/countBy';
-import { OCRScanner, ThrottleGrouping } from './BarcodeScanner/utils/classes.js';
+import { OCRScanner, ThrottleGrouping } from './utils/classes.js';
 
 export default {
     components: { LazyBookCard, SettingsIcon },

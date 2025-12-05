@@ -4,7 +4,7 @@ import { html } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
 // todo: import components we want to SSR here (not all will require it)
-import '../button.lit.js';
+import '../Button/Button.lit.js';
 
 const server = http.createServer((req, res) => {
   if (req.method === "POST") {

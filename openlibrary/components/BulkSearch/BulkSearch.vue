@@ -12,9 +12,9 @@
 
 
 <script>
-import BulkSearchControls from './BulkSearch/components/BulkSearchControls.vue'
-import { BulkSearchState } from './BulkSearch/utils/classes.js';
-import MatchTable from './BulkSearch/components/MatchTable.vue';
+import BulkSearchControls from './components/BulkSearchControls.vue'
+import { BulkSearchState } from './utils/classes.js';
+import MatchTable from './components/MatchTable.vue';
 export default {
     components: {
         BulkSearchControls, MatchTable
