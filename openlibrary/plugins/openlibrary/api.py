@@ -807,7 +807,9 @@ class opds_search(delegate.page):
     def GET(self):
         from pyopds2 import Catalog, Link, Metadata
 
-        i = web.input(query="trending_score_hourly_sum:[1 TO *]", limit=25, page=1)
+        i = web.input(
+            query="trending_score_hourly_sum:[1 TO *]", limit=25, page=1, sort=None
+        )
         provider = get_opds_data_provider()
         catalog = Catalog.create(
             metadata=Metadata(title=_("Search Results")),
@@ -815,6 +817,7 @@ class opds_search(delegate.page):
                 query=i.query,
                 limit=int(i.limit),
                 offset=(int(i.page) - 1) * int(i.limit),
+                sort=i.sort,
             ),
             links=[
                 Link(
@@ -859,20 +862,20 @@ class opds_books(delegate.page):
                 data=json.dumps({'error': 'Edition not found'}),
             )
 
-            pub = resp.records[0].to_publication()
-            pub.links += [
-                Link(
-                    rel="http://opds-spec.org/shelf",
-                    href="https://archive.org/services/loans/loan/?action=user_bookshelf",
-                    type="application/opds+json",
-                ),
-                Link(
-                    rel="profile",
-                    href="https://archive.org/services/loans/loan/?action=user_profile",
-                    type="application/opds-profile+json",
-                ),
-            ]
-            return delegate.RawText(json.dumps(pub.model_dump()))
+        pub = resp.records[0].to_publication()
+        pub.links += [
+            Link(
+                rel="http://opds-spec.org/shelf",
+                href="https://archive.org/services/loans/loan/?action=user_bookshelf",
+                type="application/opds+json",
+            ),
+            Link(
+                rel="profile",
+                href="https://archive.org/services/loans/loan/?action=user_profile",
+                type="application/opds-profile+json",
+            ),
+        ]
+        return delegate.RawText(json.dumps(pub.model_dump()))
 
 
 class opds_home(delegate.page):
@@ -884,7 +887,7 @@ class opds_home(delegate.page):
 
             provider = get_opds_data_provider()
             catalog = Catalog(
-                metadata=Metadata(title=_("Welcome to Open Library")),
+                metadata=Metadata(title=_("Open Library")),
                 publications=[],
                 navigation=[
                     Navigation(
@@ -898,7 +901,7 @@ class opds_home(delegate.page):
                     Catalog.create(
                         metadata=Metadata(title=_("Trending Books")),
                         response=provider.search(
-                            query='trending_score_hourly_sum:[1 TO *] -subject:"content_warning:cover"',
+                            query='trending_score_hourly_sum:[1 TO *] -subject:"content_warning:cover" ebook_access:[borrowable TO *]',
                             sort='trending',
                             limit=25,
                         ),
